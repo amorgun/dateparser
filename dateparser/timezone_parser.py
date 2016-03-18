@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import regex as re
-from datetime import datetime, timedelta, tzinfo
+from datetime import timedelta, tzinfo
 
 from .timezones import timezone_info_list
+from .dtime import datetime
 
 
 class StaticTzInfo(tzinfo):

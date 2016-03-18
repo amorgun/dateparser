@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import calendar
 import collections
-from datetime import datetime, timedelta
+from datetime import datetime as standart_datetime, timedelta
 from warnings import warn
+
 
 import six
 import regex as re
@@ -13,6 +14,7 @@ from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LanguageDataLoader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.conf import apply_settings
+from dateparser.dtime import datetime
 
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
@@ -64,7 +66,7 @@ def get_intersecting_periods(low, high, period='day'):
     step = relativedelta(**{period + 's': 1})
 
     current_period_start = low
-    if isinstance(current_period_start, datetime):
+    if isinstance(current_period_start, standart_datetime):
         reset_arguments = {}
         for test_period in ['microsecond', 'second', 'minute', 'hour']:
             if test_period == period:

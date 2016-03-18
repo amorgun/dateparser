@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 import calendar
 import regex as re
 import sys
-from datetime import datetime
 from collections import OrderedDict
 
 import six
@@ -14,6 +13,7 @@ from dateutil.relativedelta import relativedelta
 from .timezone_parser import pop_tz_offset_from_string
 from .utils import strip_braces, apply_timezone
 from .conf import apply_settings
+from .dtime import datetime
 
 
 binary_type = bytes if sys.version_info[0] == 3 else str

@@ -3,11 +3,12 @@ __version__ = '0.3.4'
 
 from .date import DateDataParser
 from .conf import apply_settings
+from .dtime import datetime
 
 _default_parser = DateDataParser(allow_redetect_language=True)
 
 @apply_settings
-def parse(date_string, date_formats=None, languages=None, settings=None):
+def parse(date_string, date_formats=None, languages=None, settings=None, now=None):
     """Parse date and time from given date string.
 
     :param date_string:
@@ -27,6 +28,10 @@ def parse(date_string, date_formats=None, languages=None, settings=None):
            Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
     :type settings: dict
 
+    :param now:
+        Current time for relative dates and filling missing values. If set to None uses current time.
+    :type now: :class:`datetime <datetime.datetime>`
+
 
     :return: Returns :class:`datetime <datetime.datetime>` representing parsed date if successful, else returns None
     :rtype: :class:`datetime <datetime.datetime>`.
@@ -37,7 +42,8 @@ def parse(date_string, date_formats=None, languages=None, settings=None):
     if any([languages, not settings._default]):
         parser = DateDataParser(languages=languages, settings=settings)
 
-    data = parser.get_date_data(date_string, date_formats)
+    with datetime.set_now(now):
+        data = parser.get_date_data(date_string, date_formats)
 
     if data:
         return data['date_obj']

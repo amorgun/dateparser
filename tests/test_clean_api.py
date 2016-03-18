@@ -37,8 +37,16 @@ class TestParseFunction(BaseTestCase):
         self.when_date_is_parsed(date_string, languages=languages)
         self.then_date_was_not_parsed()
 
-    def when_date_is_parsed(self, date_string, languages=None):
-        self.result = dateparser.parse(date_string, languages=languages)
+    @parameterized.expand([
+        param(date_string="Yesterday", now=datetime(2000, 1, 10), expected_date=date(2000, 1, 9)),
+        param(date_string="January 25", now=datetime(2020, 10, 13), expected_date=date(2020, 1, 25)),
+    ])
+    def test_parse_dates_with_specified_current_time(self, date_string, now, expected_date):
+        self.when_date_is_parsed(date_string, now=now)
+        self.then_parsed_date_is(expected_date)
+
+    def when_date_is_parsed(self, date_string, languages=None, now=None):
+        self.result = dateparser.parse(date_string, languages=languages, now=now)
 
     def then_parsed_date_is(self, expected_date):
         self.assertEquals(self.result, datetime.combine(expected_date, datetime.min.time()))

@@ -2,13 +2,13 @@
 from __future__ import unicode_literals
 
 import regex as re
-from datetime import datetime
 from datetime import time
 
 from dateutil.relativedelta import relativedelta
 from dateutil.parser import parse
 
 from dateparser.utils import is_dateutil_result_obj_parsed, apply_timezone
+from dateparser.dtime import datetime
 
 
 _UNITS = r'year|month|week|day|hour|minute|second'
